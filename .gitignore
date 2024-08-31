@@ -7,3 +7,6 @@ __pycache__/
 *.log
 .env
 
+# Ignore generated file "Enrolled_students.txt" while testing the program
+
+Enrolled_students.txt
