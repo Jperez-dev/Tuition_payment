@@ -32,16 +32,16 @@ Users guide for running a program:
 
 	FOR WINDOWS
 
-	1. Run a program in CLI using "python tuition_payment.py" command.	"""Ensure that the python code file run inside of
-										   Tuition_payment directory"""
+	1. Run a program in CLI using "python tuition_payment.py" command.    """Ensure that the python code file run inside of
+										 Tuition_payment directory"""
 	
 	2. The program run and just follow along the instruction on the screen.
 
 
 """ Also check my test scripts for this functional code. I have two test scripts (tuition_payment_test.py, 
-	tuition_payment_main_test.py) """
+    tuition_payment_main_test.py) """
 
 TESTING SCRIPTS
 	
 	The script includes unit tests and integration tests using the unittest framework. 
-        The unit tests focus on individual functions, while integration tests verify the overall functionality of the script.
+	The unit tests focus on individual functions, while integration tests verify the overall functionality of the script.
