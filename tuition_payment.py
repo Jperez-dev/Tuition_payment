@@ -2,6 +2,7 @@
 
 import csv
 import os
+import pandas as pd
 
 list_enrollee = os.path.abspath('List_enrollees.csv')
 list_enrolled_students = "Enrolled_students.txt"
@@ -48,25 +49,36 @@ def payment(choice):   # To compute the exact amount to pay depends to the statu
         balance = tuition_fee + miscellaneous_fee
         print(f"Balance to pay: ₱{balance:,.2f}")
 
-def generate_enrolled_students(alphabetical_name, approver_choice):  # To generate file to all students who already enrolled and approved
+def generate_enrolled_students(alphabetical_name):  # To generate file to all students who already enrolled and approved
                                                                      # by assigned personnel 
-    if approver_choice == 'Y':
-        header_1 = "NAME"
-        header_2 = "ENROLLMENT STATUS"
-        status = "ENROLLED"
-        try:
-            with open(list_enrolled_students, "a") as file:
-                if file.tell() == 0:  # Check if file is empty
-                    file.write(f"{header_1:^50s} | {header_2:^50s}" + "\n")
-
-                file.write(f"{alphabetical_name.title():^50s} | {status:^50s}" + "\n")
+    student_data = {
+        "NAME": [alphabetical_name.title()],
+        "STATUS": ["ENROLLED"]
+    }
+    initial_df = pd.DataFrame(student_data)
+        
+    try:
+        with open(list_enrolled_students, "a") as file:
+            if file.tell() == 0:  # Check if file is empty
+                df_string = initial_df.to_string(index=False, col_space=40, justify='left')
+                file.write(df_string)
+                file.write('\n')
                 return True
 
-        except FileNotFoundError:
-            return "error"
+            df_string = initial_df.to_string(index=False, header=False, col_space=40, justify='left')
+            with open(list_enrolled_students, "r") as file:
+                existing_lines = file.readlines()
 
-    else:
-        return False
+            if any(df_string in line for line in existing_lines):
+                return False
+
+            with open(list_enrolled_students, "a") as file:   
+                file.write(df_string)
+                file.write('\n')
+                return True
+
+    except FileNotFoundError:
+        return "error"
 
 def main():     # Start of the main program
     print("*************** Hello Welcome To Tuition Payment Process ***************")
@@ -132,14 +144,20 @@ def main():     # Start of the main program
                 print("-" * 72)
                 approver_choice = input("Want to approve this person? (Y/N): ").upper()
 
-                if generate_enrolled_students(alphabetical_name, approver_choice):
-                    print(f"{alphabetical_name.title()} has been successfully enrolled.")
-                    print("Transaction finished.")
+                if approver_choice == "Y":
+                    
+                    if generate_enrolled_students(alphabetical_name):
+                        print(f"{alphabetical_name.title()} has been successfully enrolled.")
+                        print("Transaction finished.")
+                        break
+
+                    if generate_enrolled_students(alphabetical_name) == "error":
+                        print("Error: File 'Enrolled_students.txt' not found.")
+                        break
+
+                    print(f"{alphabetical_name.title()} is already enrolled.")
                     break
 
-                if generate_enrolled_students(alphabetical_name, approver_choice) == "error":
-                    print("Error: File 'Enrolled_students.txt' not found.")
-                    break
 
                 print("Not approved by assigned personnel !!")
                 break
