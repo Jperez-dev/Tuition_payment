@@ -18,6 +18,7 @@ displays it on the screen.
 5. Approval Process: The admin has the option to approve or disapprove the transaction. If approved, the system updates the record of enrolled 
 students and appends the new student details to an enrollment file. If disapproved, the process is aborted, and the user is given the option 
 to start another transaction.
+6. Name Verification : The name verified first if it is already on the list of enrolled students. It is to prevent same name on the list.
 
 Users guide for running a program:
 
