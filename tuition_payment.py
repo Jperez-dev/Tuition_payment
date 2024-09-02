@@ -57,28 +57,24 @@ def generate_enrolled_students(alphabetical_name):  # To generate file to all st
     }
     initial_df = pd.DataFrame(student_data)
         
-    try:
+    if not os.path.exists(list_enrolled_students):
         with open(list_enrolled_students, "a") as file:
-            if file.tell() == 0:  # Check if file is empty
-                df_string = initial_df.to_string(index=False, col_space=40, justify='left')
-                file.write(df_string)
-                file.write('\n')
-                return True
+            df_string = initial_df.to_string(index=False, col_space=40, justify='left')
+            file.write(df_string)
+            file.write('\n')
+            return True
 
-            df_string = initial_df.to_string(index=False, header=False, col_space=40, justify='left')
-            with open(list_enrolled_students, "r") as file:
-                existing_lines = file.readlines()
+    df_string = initial_df.to_string(index=False, header=False, col_space=40, justify='left')
+    with open(list_enrolled_students, "r") as file:
+        existing_lines = file.readlines()
 
-            if any(df_string in line for line in existing_lines):
-                return False
+    if any(df_string in line for line in existing_lines):
+        return False
 
-            with open(list_enrolled_students, "a") as file:   
-                file.write(df_string)
-                file.write('\n')
-                return True
-
-    except FileNotFoundError:
-        return "error"
+    with open(list_enrolled_students, "a") as file:   
+        file.write(df_string)
+        file.write('\n')
+        return True
 
 def main():     # Start of the main program
     print("*************** Hello Welcome To Tuition Payment Process ***************")
@@ -149,10 +145,6 @@ def main():     # Start of the main program
                     if generate_enrolled_students(alphabetical_name):
                         print(f"{alphabetical_name.title()} has been successfully enrolled.")
                         print("Transaction finished.")
-                        break
-
-                    if generate_enrolled_students(alphabetical_name) == "error":
-                        print("Error: File 'Enrolled_students.txt' not found.")
                         break
 
                     print(f"{alphabetical_name.title()} is already enrolled.")
