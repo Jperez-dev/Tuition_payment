@@ -35,6 +35,7 @@ class Test_main(unittest.TestCase):
         self.assertIn("Your information is verified. You can proceed to payment.", output)
         self.assertIn("Balance to pay:", output)
         self.assertIn("If this person completed the payment process, kindly proceed to approval process.", output)
+        self.assertIn("Smith, John Michael has been successfully enrolled.", output)
         self.assertIn("Transaction finished.", output)
         self.assertIn("THANK YOU", output)
 
@@ -50,11 +51,13 @@ class Test_main(unittest.TestCase):
         self.assertIn("Your information is verified. You can proceed to payment.", output)
         self.assertIn("Balance to pay:", output)
         self.assertIn("If this person completed the payment process, kindly proceed to approval process.", output)
+        self.assertIn("Davis, Sophia Marie has been successfully enrolled.", output)
         self.assertIn("Transaction finished.", output)
         self.assertIn("Checking your information.....", output)
         self.assertIn("Your information is verified. You can proceed to payment.", output)
         self.assertIn("Balance to pay:", output)
         self.assertIn("If this person completed the payment process, kindly proceed to approval process.", output)
+        self.assertIn("Martinez, Olivia Grace has been successfully enrolled.", output)
         self.assertIn("Transaction finished.", output)
         self.assertIn("THANK YOU", output)
 
@@ -161,6 +164,7 @@ class Test_main(unittest.TestCase):
         self.assertIn("SOPHIA MARIE DAVIS isn't compatible on your selected status.", output)
         self.assertIn("Balance to pay:", output)
         self.assertIn("If this person completed the payment process, kindly proceed to approval process.", output)
+        self.assertIn("Davis, Sophia Marie has been successfully enrolled.", output)
         self.assertIn("Transaction finished.", output)
         self.assertIn("Checking your information.....", output)
         self.assertIn("Your information is verified. You can proceed to payment.", output)
@@ -171,11 +175,13 @@ class Test_main(unittest.TestCase):
         self.assertIn("Your information is verified. You can proceed to payment.", output)
         self.assertIn("Balance to pay:", output)
         self.assertIn("If this person completed the payment process, kindly proceed to approval process.", output)
+        self.assertIn("Thompson, James Robert has been successfully enrolled.", output)
         self.assertIn("Transaction finished.", output)
         self.assertIn("Checking your information.....", output)
         self.assertIn("Your information is verified. You can proceed to payment.", output)
         self.assertIn("Balance to pay:", output)
         self.assertIn("If this person completed the payment process, kindly proceed to approval process.", output)
+        self.assertIn("Johnson, Emily Anne has been successfully enrolled.", output)
         self.assertIn("THANK YOU", output)
 
 # Run Test_main tests
