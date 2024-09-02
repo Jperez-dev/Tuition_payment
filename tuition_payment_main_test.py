@@ -61,6 +61,25 @@ class Test_main(unittest.TestCase):
         self.assertIn("Transaction finished.", output)
         self.assertIn("THANK YOU", output)
 
+    # test if a name already on a list of enrolled students. Should notify that it is already enrolled.
+    @patch("builtins.input", side_effect=["Davis", "Sophia", "Marie", 2, "Y", "Y",
+                                          "Davis", "Sophia", "Marie", 2, "Y", "N"])
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_main_name_on_enrolled_list(self, mock_stdout, mock_stdin):
+        tuition_payment.main()
+        output = mock_stdout.getvalue().strip()
+        self.assertIn("Checking your information.....", output)
+        self.assertIn("Your information is verified. You can proceed to payment.", output)
+        self.assertIn("Balance to pay:", output)
+        self.assertIn("If this person completed the payment process, kindly proceed to approval process.", output)
+        self.assertIn("Davis, Sophia Marie has been successfully enrolled.", output)
+        self.assertIn("Transaction finished.", output)
+        self.assertIn("Checking your information.....", output)
+        self.assertIn("Your information is verified. You can proceed to payment.", output)
+        self.assertIn("Balance to pay:", output)
+        self.assertIn("If this person completed the payment process, kindly proceed to approval process.", output)
+        self.assertIn("Davis, Sophia Marie is already enrolled.", output)
+        self.assertIn("THANK YOU", output)
 
     # not existing name on data
     @patch("builtins.input", side_effect=["Sophia", "Marie", "Davis", "N"])     # On this scenario, the inputs sequence is firstname
@@ -150,11 +169,13 @@ class Test_main(unittest.TestCase):
         self.assertIn("THANK YOU", output)
 
 
-    # Complex scenario. Multiple process with different inputs(some valid, some invalid). Multiple cycles.
+    """ Complex scenario. Multiple process with different inputs(some valid, some invalid). Also scenario if name is already
+    on the list of enrolled students. Multiple cycle test. """
     @patch("builtins.input", side_effect=["Davis", "Sophia", "Marie", 1, "y", 2, "y", "y",
                                           "Martinez", "Olivia", "Grace", 1, "n", "y", 
                                           "thompson", "james", "robert", 2, "y", "y", 
-                                          "johnson", "Emily","annE", 3, "y", "n"])
+                                          "johnson", "Emily","annE", 3, "y", "y",
+                                          "thompson", "james", "robert", 2, "y", "n"])
     @patch("sys.stdout", new_callable=StringIO)
     def test_main_complex_scenario_with_multiple_cycles(self, mock_stdout, mock_stdin):
         tuition_payment.main()
@@ -182,6 +203,11 @@ class Test_main(unittest.TestCase):
         self.assertIn("Balance to pay:", output)
         self.assertIn("If this person completed the payment process, kindly proceed to approval process.", output)
         self.assertIn("Johnson, Emily Anne has been successfully enrolled.", output)
+        self.assertIn("Checking your information.....", output)
+        self.assertIn("Your information is verified. You can proceed to payment.", output)
+        self.assertIn("Balance to pay:", output)
+        self.assertIn("If this person completed the payment process, kindly proceed to approval process.", output)
+        self.assertIn("Thompson, James Robert is already enrolled.", output)
         self.assertIn("THANK YOU", output)
 
 # Run Test_main tests
